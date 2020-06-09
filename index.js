@@ -9,9 +9,9 @@ function makeUrl(stateInput, maxResults) {
 
 function getParks(query, maxResults) {
   //this is where our fetch goes
-  console.log('get parks ran')
+  //console.log('get parks ran');
   const searchUrl = makeUrl(query, maxResults);
-  console.log(searchUrl)
+  //console.log(searchUrl);
 
   fetch(searchUrl)
     .then(response => {
@@ -23,11 +23,20 @@ function getParks(query, maxResults) {
     .catch(err => {
       alert(err.message);
     });
-} 
+}
 
 function displayResults(responseJson) {
-  let html = ``;
-  
+  //console.log(responseJson);
+
+  $('#results-list').empty();
+
+  for (let i = 0; i < responseJson.data.length; i++) {
+    $('#results-list').append(
+      `<li><h3>${responseJson.data[i].fullName}</h3>
+      <p>${responseJson.data[i].description}</p>
+      <a href="${responseJson.data[i].url}">Website</a>
+      </li>`);
+  }
 }
 
 function watchForm() {
@@ -35,7 +44,7 @@ function watchForm() {
     event.preventDefault();
     const stateInput = $('#js-state-select').val();
     const maxResults = $('#js-number-of-responses').val();
-    console.log(`State: ${stateInput} Max: ${maxResults}`);
+    //console.log(`State: ${stateInput} Max: ${maxResults}`);
     getParks(stateInput, maxResults);
   });
 }
